@@ -4,12 +4,15 @@ import Home from "./pages/Home";
 import AlpacaMap from "./pages/AlpacaMap";
 import Error from "./pages/Error";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <nav>Top shared navigation</nav>
+        <nav>
+          <Link to="/alpaca-map">Alpaca Map</Link>
+        </nav>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/alpaca-map" element={<AlpacaMap />} />

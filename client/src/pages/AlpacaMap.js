@@ -35,6 +35,11 @@ const AlpacaMap = () => {
   return (
     <div className="App">
       <header className="App-header">
+        <section>
+          Map TODO - currently this page only shows a list of alpacas from the
+          API:
+        </section>
+
         <section>{!data ? "Loading..." : AlpacaList(data)}</section>
       </header>
     </div>
