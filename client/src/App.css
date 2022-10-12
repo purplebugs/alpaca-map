@@ -1,9 +1,25 @@
+
+#map {
+  height: 100%;
+  background-color: red;
+}
+
+#root {
+  height: 100%;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: grey;
   min-height: 95vh;
   display: flex;
   flex-direction: column;
@@ -16,4 +32,3 @@
 .App-link {
   color: #61dafb;
 }
-
