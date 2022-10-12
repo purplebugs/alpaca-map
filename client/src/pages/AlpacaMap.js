@@ -1,4 +1,5 @@
 import React from "react";
+import "./AlpacaMap.css";
 
 const AlpacaMap = () => {
   const [data, setData] = React.useState(null);
@@ -7,8 +8,36 @@ const AlpacaMap = () => {
     const response = await fetch("/api/all?size=150");
     const items = await response.json();
     setData(items);
-    console.log(items);
+    console.log("items", items);
   };
+
+  const getGeoPosition = () => {
+    return new Promise((resolve, reject) => {
+      // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API/Using_the_Geolocation_API
+      // Wrap navigator.geolocation browser API in a promise because it returns asynchronously
+      // however was written before Promises, therefore it does not return a Promise
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          resolve({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  };
+
+  React.useEffect(() => {
+    // this is a wrapper allowing an async call
+    async function loadPosition() {
+      return await getGeoPosition();
+    }
+    const position = loadPosition();
+    console.log("position", position);
+  }, []);
 
   React.useEffect(() => {
     getData();
