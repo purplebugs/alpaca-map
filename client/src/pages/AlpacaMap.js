@@ -3,6 +3,8 @@ import "./AlpacaMap.css";
 
 const AlpacaMap = () => {
   const [data, setData] = React.useState(null);
+  const [latitude, setLatitude] = React.useState(null);
+  const [longitude, setLongitude] = React.useState(null);
 
   const getData = async () => {
     const response = await fetch("/api/all?size=150");
@@ -11,7 +13,7 @@ const AlpacaMap = () => {
     console.log("items", items);
   };
 
-  const getGeoPosition = () => {
+  /*   const getGeoPosition = () => {
     return new Promise((resolve, reject) => {
       // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API/Using_the_Geolocation_API
       // Wrap navigator.geolocation browser API in a promise because it returns asynchronously
@@ -38,9 +40,21 @@ const AlpacaMap = () => {
     const position = loadPosition();
     console.log("position", position);
   }, []);
-
+ */
   React.useEffect(() => {
     getData();
+  }, []);
+
+  React.useEffect(() => {
+    if ("geolocation" in navigator) {
+      console.log("Available");
+      window.navigator.geolocation.getCurrentPosition((position) => {
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+      });
+    } else {
+      console.log("Not Available");
+    }
   }, []);
 
   const AlpacaList = (data) => {
@@ -64,6 +78,10 @@ const AlpacaMap = () => {
   return (
     <div className="App">
       <header className="App-header">
+        <section>
+          {!latitude ? "Loading latitude..." : latitude}:
+          {!longitude ? "Loading longitude..." : longitude}
+        </section>
         <section>
           Map TODO - currently this page only shows a list of alpacas from the
           API:
