@@ -1,6 +1,25 @@
 import React from "react";
 import "./AlpacaMap.css";
 
+const getGeoPosition = () => {
+  return new Promise((resolve, reject) => {
+    // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API/Using_the_Geolocation_API
+    // Wrap navigator.geolocation browser API in a promise because it returns asynchronously
+    // however was written before Promises, therefore it does not return a Promise
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      (error) => {
+        reject(error);
+      }
+    );
+  });
+};
+
 const AlpacaMap = () => {
   const [data, setData] = React.useState(null);
   const [latitude, setLatitude] = React.useState(null);
@@ -13,48 +32,19 @@ const AlpacaMap = () => {
     console.log("items", items);
   };
 
-  /*   const getGeoPosition = () => {
-    return new Promise((resolve, reject) => {
-      // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API/Using_the_Geolocation_API
-      // Wrap navigator.geolocation browser API in a promise because it returns asynchronously
-      // however was written before Promises, therefore it does not return a Promise
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          resolve({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        (error) => {
-          reject(error);
-        }
-      );
-    });
-  };
-
   React.useEffect(() => {
     // this is a wrapper allowing an async call
     async function loadPosition() {
-      return await getGeoPosition();
+      const position = await getGeoPosition();
+      setLatitude(position.lat);
+      setLongitude(position.lng);
+      console.log("position", position);
     }
-    const position = loadPosition();
-    console.log("position", position);
-  }, []);
- */
-  React.useEffect(() => {
-    getData();
+    loadPosition();
   }, []);
 
   React.useEffect(() => {
-    if ("geolocation" in navigator) {
-      console.log("Available");
-      window.navigator.geolocation.getCurrentPosition((position) => {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-      });
-    } else {
-      console.log("Not Available");
-    }
+    getData();
   }, []);
 
   const AlpacaList = (data) => {
