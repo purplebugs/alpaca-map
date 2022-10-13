@@ -12,13 +12,13 @@ function App() {
     <>
       <BrowserRouter>
         <nav>
-          <Link to="/alpaca-map">Alpaca Map</Link>
+          <Link to="/">Home</Link> - <Link to="/alpaca-map">Alpaca Map</Link> -{" "}
+          <Link to="/map-example">Map Example</Link>
         </nav>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/map-example" element={<MapExample />} />
           <Route path="/alpaca-map" element={<AlpacaMap />} />
-          <Route path="/testing" element={<div>testing</div>} />
           <Route path="*" element={<Error />} />
         </Routes>
         <footer>Footer shared navigation</footer>

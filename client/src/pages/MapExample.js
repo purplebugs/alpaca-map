@@ -42,9 +42,12 @@ const MapExample = () => {
   const zoom = 4;
 
   return (
-    <Wrapper apiKey="AIzaSyA4CRGK7nl21aBT_1uzNgLZ0B2SyAyd__E" render={render}>
-      <MyMapComponent center={center} zoom={zoom} />
-    </Wrapper>
+    <>
+      <h2>Example simple map that renders with fixed centre location</h2>
+      <Wrapper apiKey="AIzaSyA4CRGK7nl21aBT_1uzNgLZ0B2SyAyd__E" render={render}>
+        <MyMapComponent center={center} zoom={zoom} />
+      </Wrapper>
+    </>
   );
 };
 

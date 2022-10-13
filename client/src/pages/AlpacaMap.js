@@ -1,5 +1,4 @@
 import React from "react";
-import "./AlpacaMap.css";
 
 const getGeoPosition = () => {
   return new Promise((resolve, reject) => {
