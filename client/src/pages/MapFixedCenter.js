@@ -37,7 +37,7 @@ function MyMapComponent({ center, zoom }) {
   return <div ref={ref} id="map" />;
 }
 
-const MapExample = () => {
+const MapFixedCenter = () => {
   const center = { lat: -34.397, lng: 150.644 };
   const zoom = 4;
 
@@ -51,4 +51,4 @@ const MapExample = () => {
   );
 };
 
-export default MapExample;
+export default MapFixedCenter;
