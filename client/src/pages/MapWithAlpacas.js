@@ -61,7 +61,6 @@ const Marker = (props) => {
 const MapWithAlpacas = () => {
   const [data, setData] = React.useState(null);
   const center = { lat: 59, lng: 20 };
-  const myLocation = { lat: -10.397, lng: 150.644 };
   const label = "Alpaca";
   const zoom = 4;
 
@@ -69,7 +68,7 @@ const MapWithAlpacas = () => {
     const response = await fetch("/api/all?size=150");
     const items = await response.json();
     setData(items);
-    console.log("items", items);
+    // console.log("items", items);
   };
 
   React.useEffect(() => {
@@ -77,12 +76,13 @@ const MapWithAlpacas = () => {
   }, []);
 
   const AlpacaMarker = (data) => {
-    data.map((alpaca) => {
+    const result = data.map((alpaca, id) => {
+      // TODO cache so don't process duplicates
       if (
         alpaca._source &&
         alpaca._source.location &&
         alpaca._source.location.coordinates &&
-        alpaca._source.location.coordinates[0] != undefined
+        alpaca._source.location.coordinates[0] !== null
       ) {
         const lat = alpaca._source.location.coordinates[1];
         const lng = alpaca._source.location.coordinates[0];
@@ -92,10 +92,11 @@ const MapWithAlpacas = () => {
           lng: lng,
         };
 
-        console.log("position", position);
-        return <Marker position={position} />;
+        // console.log("position", position);
+        return <Marker key={id} position={position} label={label} />;
       }
     });
+    return result;
   };
 
   return (
@@ -106,13 +107,10 @@ const MapWithAlpacas = () => {
         apiKey={"AIzaSyA4CRGK7nl21aBT_1uzNgLZ0B2SyAyd__E"}
         render={render}
       >
-        {!data ? (
-          "Loading..."
-        ) : (
-          <Map center={center} zoom={zoom}>
-            {!data ? "Loading..." : AlpacaMarker(data)}
-          </Map>
-        )}
+        (
+        <Map center={center} zoom={zoom}>
+          {!data ? "Loading..." : AlpacaMarker(data)}
+        </Map>
       </Wrapper>
     </>
   );
