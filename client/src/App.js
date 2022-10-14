@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Home from "./pages/Home";
-import AlpacaMap from "./pages/AlpacaMap";
+import GetPositionGetAlpacas from "./pages/GetPositionGetAlpacas";
 import MapFixedCenter from "./pages/MapFixedCenter";
 import MapWithStaticMarkers from "./pages/MapWithStaticMarkers";
 import Error from "./pages/Error";
@@ -13,8 +13,9 @@ function App() {
     <>
       <BrowserRouter>
         <nav>
-          <Link to="/">Home</Link> - <Link to="/alpaca-map">Alpaca Map</Link> -{" "}
-          <Link to="/map-fixed-center">Map Fixed Center</Link> -{" "}
+          <Link to="/">Home</Link> -{" "}
+          <Link to="/get-position-get-alpacas">Get Position, Get Alpacas</Link>{" "}
+          - <Link to="/map-fixed-center">Map Fixed Center</Link> -{" "}
           <Link to="/map-with-static-markers">Map with Static Markers</Link>
         </nav>
         <Routes>
@@ -24,7 +25,10 @@ function App() {
             path="/map-with-static-markers"
             element={<MapWithStaticMarkers />}
           />
-          <Route path="/alpaca-map" element={<AlpacaMap />} />
+          <Route
+            path="/get-position-get-alpacas"
+            element={<GetPositionGetAlpacas />}
+          />
           <Route path="*" element={<Error />} />
         </Routes>
         <footer>Footer shared navigation</footer>

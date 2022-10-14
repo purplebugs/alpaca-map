@@ -19,7 +19,7 @@ const getGeoPosition = () => {
   });
 };
 
-const AlpacaMap = () => {
+const GetPositionGetAlpacas = () => {
   const [data, setData] = React.useState(null);
   const [latitude, setLatitude] = React.useState(null);
   const [longitude, setLongitude] = React.useState(null);
@@ -67,14 +67,12 @@ const AlpacaMap = () => {
   return (
     <div className="App">
       <header className="App-header">
+        <h2>Show current position:</h2>
         <section>
           {!latitude ? "Loading latitude..." : latitude}:
           {!longitude ? "Loading longitude..." : longitude}
         </section>
-        <section>
-          Map TODO - currently this page only shows a list of alpacas from the
-          API:
-        </section>
+        <h2>Show list of alpacas from the API:</h2>
 
         <section>{!data ? "Loading..." : AlpacaList(data)}</section>
       </header>
@@ -82,4 +80,4 @@ const AlpacaMap = () => {
   );
 };
 
-export default AlpacaMap;
+export default GetPositionGetAlpacas;
