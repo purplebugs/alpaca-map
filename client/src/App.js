@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import GetPositionGetAlpacas from "./pages/GetPositionGetAlpacas";
 import MapFixedCenter from "./pages/MapFixedCenter";
 import MapWithStaticMarkers from "./pages/MapWithStaticMarkers";
+import MapWithAlpacas from "./pages/MapWithAlpacas";
 import Error from "./pages/Error";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -16,7 +17,8 @@ function App() {
           <Link to="/">Home</Link> -{" "}
           <Link to="/get-position-get-alpacas">Get Position, Get Alpacas</Link>{" "}
           - <Link to="/map-fixed-center">Map Fixed Center</Link> -{" "}
-          <Link to="/map-with-static-markers">Map with Static Markers</Link>
+          <Link to="/map-with-static-markers">Map with Static Markers</Link> -{" "}
+          <Link to="/map-with-alpacas">Map with Alpacas</Link>
         </nav>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -25,6 +27,7 @@ function App() {
             path="/map-with-static-markers"
             element={<MapWithStaticMarkers />}
           />
+          <Route path="/map-with-alpacas" element={<MapWithAlpacas />} />
           <Route
             path="/get-position-get-alpacas"
             element={<GetPositionGetAlpacas />}
