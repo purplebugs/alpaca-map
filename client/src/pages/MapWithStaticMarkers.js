@@ -58,7 +58,7 @@ const Marker = (props) => {
   return null;
 };
 
-const MapWithMarker = () => {
+const MapWithStaticMarkers = () => {
   const center = { lat: -34.397, lng: 150.644 };
   const centeranother = { lat: -10.397, lng: 150.644 };
   const label = "My location 12237843278423";
@@ -66,7 +66,7 @@ const MapWithMarker = () => {
 
   return (
     <>
-      <h2>Example! simple map that renders with one fixed marker</h2>
+      <h2>Example! simple map that renders with two fixed markers</h2>
 
       <Wrapper
         apiKey={"AIzaSyA4CRGK7nl21aBT_1uzNgLZ0B2SyAyd__E"}
@@ -81,4 +81,4 @@ const MapWithMarker = () => {
   );
 };
 
-export default MapWithMarker;
+export default MapWithStaticMarkers;

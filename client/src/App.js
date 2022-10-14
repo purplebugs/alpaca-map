@@ -3,7 +3,7 @@ import "./App.css";
 import Home from "./pages/Home";
 import AlpacaMap from "./pages/AlpacaMap";
 import MapFixedCenter from "./pages/MapFixedCenter";
-import MapWithMarker from "./pages/MapWithMarker";
+import MapWithStaticMarkers from "./pages/MapWithStaticMarkers";
 import Error from "./pages/Error";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -15,12 +15,15 @@ function App() {
         <nav>
           <Link to="/">Home</Link> - <Link to="/alpaca-map">Alpaca Map</Link> -{" "}
           <Link to="/map-fixed-center">Map Fixed Center</Link> -{" "}
-          <Link to="/map-with-marker">Map With Marker</Link>
+          <Link to="/map-with-static-markers">Map with Static Markers</Link>
         </nav>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/map-fixed-center" element={<MapFixedCenter />} />
-          <Route path="/map-with-marker" element={<MapWithMarker />} />
+          <Route
+            path="/map-with-static-markers"
+            element={<MapWithStaticMarkers />}
+          />
           <Route path="/alpaca-map" element={<AlpacaMap />} />
           <Route path="*" element={<Error />} />
         </Routes>
