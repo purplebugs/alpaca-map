@@ -1,15 +1,22 @@
-import React, { useEffect, useRef, ReactElement } from "react";
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  Children,
+  isValidElement,
+  cloneElement,
+} from "react";
+import { Wrapper } from "@googlemaps/react-wrapper";
 
 const render = (status) => {
   return <h1>{status}</h1>;
 };
 
 const Map = (props) => {
-  const ref = React.useRef(null);
-  const [map, setMap] = React.useState();
+  const ref = useRef(null);
+  const [map, setMap] = useState();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (ref.current && !map) {
       setMap(
         new window.google.maps.Map(ref.current, {
@@ -24,10 +31,10 @@ const Map = (props) => {
     <>
       <div ref={ref} id="map" />
 
-      {React.Children.map(props.children, (child) => {
-        if (React.isValidElement(child)) {
+      {Children.map(props.children, (child) => {
+        if (isValidElement(child)) {
           // set the map prop on the child component
-          return React.cloneElement(child, { map });
+          return cloneElement(child, { map });
         }
       })}
     </>
@@ -35,9 +42,9 @@ const Map = (props) => {
 };
 
 const Marker = (props) => {
-  const [marker, setMarker] = React.useState();
+  const [marker, setMarker] = useState();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!marker) {
       setMarker(new window.google.maps.Marker());
     }
@@ -50,7 +57,7 @@ const Marker = (props) => {
     };
   }, [marker]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (marker) {
       marker.setOptions(props); // setOptions is part of Google API to set options on a marker
     }
