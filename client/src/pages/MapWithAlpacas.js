@@ -5,7 +5,7 @@ const render = (status) => {
   return <h1>{status}</h1>;
 };
 
-const Map = (props) => {
+const AlpacaMap = (props) => {
   const ref = React.useRef(null);
   const [map, setMap] = React.useState();
 
@@ -63,6 +63,7 @@ const MapWithAlpacas = () => {
   const center = { lat: 59, lng: 20 };
   const label = "Alpaca";
   const zoom = 4;
+  const alpacaFarms = new Map(); // cache locations to avoid duplicate lookup of Google API
 
   const getData = async () => {
     const response = await fetch("/api/all?size=150");
@@ -83,17 +84,30 @@ const MapWithAlpacas = () => {
         alpaca._source &&
         alpaca._source.location &&
         alpaca._source.location.coordinates &&
-        alpaca._source.location.coordinates[0] !== null
+        alpaca._source.location.coordinates[0] !== null &&
+        alpaca._source.location.coordinates[1] !== null &&
+        alpaca._source.location.coordinates[0] !== undefined &&
+        alpaca._source.location.coordinates[1] !== undefined
       ) {
         const lat = alpaca._source.location.coordinates[1];
         const lng = alpaca._source.location.coordinates[0];
 
+        const key = `${lat}:${lng}`;
+        // Add farm position
         const position = {
           lat: lat,
           lng: lng,
         };
-        myOutput.push(position);
-        console.log(`[LOG] position ${JSON.stringify(position)}`);
+
+        if (alpacaFarms.has(key)) {
+          console.log(`[LOG] Using location from alpacaFarms: ${key}`);
+          // Do not add new farm
+        } else {
+          // Add new farm
+          myOutput.push(position);
+          alpacaFarms.set(key, position);
+          console.log(`[LOG] Location added to alpacaFarms: ${key}`);
+        }
       }
     }
     return myOutput;
@@ -117,9 +131,9 @@ const MapWithAlpacas = () => {
         render={render}
       >
         (
-        <Map center={center} zoom={zoom}>
+        <AlpacaMap center={center} zoom={zoom}>
           {!data ? "Loading..." : AlpacaMarker(data)}
-        </Map>
+        </AlpacaMap>
       </Wrapper>
     </>
   );
