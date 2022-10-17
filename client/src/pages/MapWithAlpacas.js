@@ -86,9 +86,8 @@ const MapWithAlpacas = () => {
   const extractLocations = (listOfAlpacas) => {
     const myOutput = [];
     for (const alpaca of listOfAlpacas) {
-      // TODO cache so don't process duplicates
       if (
-        alpaca._source &&
+        alpaca &&
         alpaca.location &&
         alpaca.location.coordinates &&
         alpaca.location.coordinates[0] !== null &&
@@ -107,13 +106,13 @@ const MapWithAlpacas = () => {
         };
 
         if (alpacaFarms.has(key)) {
-          // console.log(`[LOG] Using location from alpacaFarms: ${key}`);
+          console.log(`[LOG] Using location from alpacaFarms: ${key}`);
           // Do not add new farm
         } else {
           // Add new farm
           myOutput.push(position);
           alpacaFarms.set(key, position);
-          // console.log(`[LOG] Location added to alpacaFarms: ${key}`);
+          console.log(`[LOG] Location added to alpacaFarms: ${key}`);
         }
       }
     }
