@@ -131,13 +131,17 @@ const MapWithAlpacas = () => {
 
   return (
     <>
-      <h2>IN PROGRESS: Map with alpaca locations</h2>
-
+      <header>
+        <h2>Map with alpaca locations</h2>
+      </header>
+      <section>
+        <p>Placeholder to show alpaca details</p>
+        <p>and more info</p>
+      </section>
       <Wrapper
         apiKey={"AIzaSyA4CRGK7nl21aBT_1uzNgLZ0B2SyAyd__E"}
         render={render}
       >
-        (
         <AlpacaMap center={center} zoom={zoom}>
           {!data ? "Loading..." : AlpacaMarker(data)}
         </AlpacaMap>
