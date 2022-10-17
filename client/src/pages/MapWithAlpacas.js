@@ -68,15 +68,16 @@ const MapWithAlpacas = () => {
     const response = await fetch("/api/all?size=150");
     const items = await response.json();
     setData(items);
-    // console.log("items", items);
+    console.log("items", items);
   };
 
   React.useEffect(() => {
     getData();
   }, []);
 
-  const AlpacaMarker = (data) => {
-    const result = data.map((alpaca, id) => {
+  const extractLocations = (listOfAlpacas) => {
+    const myOutput = [];
+    for (const alpaca of listOfAlpacas) {
       // TODO cache so don't process duplicates
       if (
         alpaca._source &&
@@ -91,10 +92,18 @@ const MapWithAlpacas = () => {
           lat: lat,
           lng: lng,
         };
-
-        // console.log("position", position);
-        return <Marker key={id} position={position} label={label} />;
+        myOutput.push(position);
+        console.log(`[LOG] position ${JSON.stringify(position)}`);
       }
+    }
+    return myOutput;
+  };
+
+  const AlpacaMarker = (data) => {
+    const locations = extractLocations(data);
+
+    const result = locations.map((location, id) => {
+      return <Marker key={id} position={location} label={label} />;
     });
     return result;
   };
