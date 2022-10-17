@@ -51,12 +51,12 @@ const GetPositionGetAlpacas = () => {
       <section>
         {data.map((alpaca, id) => {
           return (
-            <article key={alpaca._source.alpacaId}>
+            <article key={alpaca.alpacaId}>
               <h3>
-                {id} - Alpaca Name: {alpaca._source.alpacaShortName}
+                {id} - Alpaca Name: {alpaca.alpacaShortName}
               </h3>
-              <h6>Gender: {alpaca._source.gender}</h6>
-              <h6>Farm: {alpaca._source.name}</h6>
+              <h6>Gender: {alpaca.gender}</h6>
+              <h6>Farm: {alpaca.name}</h6>
             </article>
           );
         })}

@@ -39,7 +39,11 @@ app.get("/api/all", async (req, res) => {
 
   const response = result.hits.hits;
   console.log(response);
-  res.json(response);
+  const source = response.map((item) => {
+    return item._source;
+  });
+  console.log(source);
+  res.json(source);
 });
 
 app.listen(PORT, () => {

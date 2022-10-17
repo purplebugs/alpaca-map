@@ -89,15 +89,15 @@ const MapWithAlpacas = () => {
       // TODO cache so don't process duplicates
       if (
         alpaca._source &&
-        alpaca._source.location &&
-        alpaca._source.location.coordinates &&
-        alpaca._source.location.coordinates[0] !== null &&
-        alpaca._source.location.coordinates[1] !== null &&
-        alpaca._source.location.coordinates[0] !== undefined &&
-        alpaca._source.location.coordinates[1] !== undefined
+        alpaca.location &&
+        alpaca.location.coordinates &&
+        alpaca.location.coordinates[0] !== null &&
+        alpaca.location.coordinates[1] !== null &&
+        alpaca.location.coordinates[0] !== undefined &&
+        alpaca.location.coordinates[1] !== undefined
       ) {
-        const lat = alpaca._source.location.coordinates[1];
-        const lng = alpaca._source.location.coordinates[0];
+        const lat = alpaca.location.coordinates[1];
+        const lng = alpaca.location.coordinates[0];
 
         const key = `${lat}:${lng}`;
         // Add farm position
