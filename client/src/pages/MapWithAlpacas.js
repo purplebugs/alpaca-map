@@ -151,16 +151,14 @@ const MapWithAlpacas = () => {
       <section>
         <p>Placeholder to show alpaca details</p>
 
-        <p>
-          The alpacas on the map are accessible for screen readers
-          <ul>
-            <li>Use tab to select first icon, arrows to move between icons</li>
-            <li>
-              TODO: spacebar or enter to show info window - currently prints
-              info to browser console
-            </li>
-          </ul>
-        </p>
+        <p>The alpacas on the map are accessible for screen readers </p>
+        <ul>
+          <li>Use tab to select first icon, arrows to move between icons</li>
+          <li>
+            TODO: spacebar or enter to show info window - currently prints info
+            to browser console
+          </li>
+        </ul>
       </section>
       <Wrapper
         apiKey={"AIzaSyA4CRGK7nl21aBT_1uzNgLZ0B2SyAyd__E"}
