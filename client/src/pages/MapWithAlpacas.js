@@ -132,7 +132,12 @@ const MapWithAlpacas = () => {
 
     const result = locations.map((location, id) => {
       return (
-        <Marker key={id} position={location} label={`${id + 1}. Alpaca farm`} />
+        <Marker
+          key={id}
+          position={location}
+          label={`${id + 1}. Alpaca farm`}
+          optimized={false}
+        />
       );
     });
     return result;
@@ -145,7 +150,17 @@ const MapWithAlpacas = () => {
       </header>
       <section>
         <p>Placeholder to show alpaca details</p>
-        <p>and more info</p>
+
+        <p>
+          The alpacas on the map are accessible for screen readers
+          <ul>
+            <li>Use tab to select first icon, arrows to move between icons</li>
+            <li>
+              TODO: spacebar or enter to show info window - currently prints
+              info to browser console
+            </li>
+          </ul>
+        </p>
       </section>
       <Wrapper
         apiKey={"AIzaSyA4CRGK7nl21aBT_1uzNgLZ0B2SyAyd__E"}
