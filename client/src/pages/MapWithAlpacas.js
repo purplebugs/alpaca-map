@@ -58,9 +58,18 @@ const Marker = (props) => {
   }, [marker]);
 
   useEffect(() => {
+    let listenerHandle = null;
     if (marker) {
+      listenerHandle = marker.addListener("click", () => {
+        console.log(`Farm position: ${JSON.stringify(props.position)}`);
+      });
       marker.setOptions(props); // setOptions is part of Google API to set options on a marker
     }
+    return () => {
+      if (marker) {
+        listenerHandle.remove();
+      }
+    };
   }, [marker, props]);
   return null;
 };
@@ -68,7 +77,6 @@ const Marker = (props) => {
 const MapWithAlpacas = () => {
   const [data, setData] = useState(null);
   const center = { lat: 59, lng: 20 };
-  const label = "Alpaca";
   const zoom = 4;
   const alpacaFarms = new Map(); // cache locations to avoid duplicate lookup of Google API
 
@@ -123,7 +131,9 @@ const MapWithAlpacas = () => {
     const locations = extractLocations(data);
 
     const result = locations.map((location, id) => {
-      return <Marker key={id} position={location} label={label} />;
+      return (
+        <Marker key={id} position={location} label={`${id + 1}. Alpaca farm`} />
+      );
     });
     return result;
   };
