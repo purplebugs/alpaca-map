@@ -34,6 +34,7 @@ const AlpacaMap = (props) => {
       {Children.map(props.children, (child) => {
         if (isValidElement(child)) {
           // set the map prop on the child component
+          // Ref: https://developers.google.com/maps/documentation/javascript/react-map#marker-child-component
           return cloneElement(child, { map });
         }
       })}
