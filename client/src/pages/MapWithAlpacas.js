@@ -42,41 +42,9 @@ const AlpacaMap = (props) => {
   );
 };
 
-const Marker = (props) => {
-  const [marker, setMarker] = useState();
-
-  useEffect(() => {
-    if (!marker) {
-      setMarker(new window.google.maps.Marker());
-    }
-
-    // remove marker from map on unmount
-    return () => {
-      if (marker) {
-        marker.setMap(null);
-      }
-    };
-  }, [marker]);
-
-  useEffect(() => {
-    let listenerHandle = null;
-    if (marker) {
-      listenerHandle = marker.addListener("click", () => {
-        console.log(`Farm position: ${JSON.stringify(props.position)}`);
-      });
-      marker.setOptions(props); // setOptions is part of Google API to set options on a marker
-    }
-    return () => {
-      if (marker) {
-        listenerHandle.remove();
-      }
-    };
-  }, [marker, props]);
-  return null;
-};
-
 const MapWithAlpacas = () => {
   const [data, setData] = useState(null);
+  const [farmInfo, setFarmInfo] = useState(null);
   const center = { lat: 59, lng: 20 };
   const zoom = 4;
   const alpacaFarms = new Map(); // cache locations to avoid duplicate lookup of Google API
@@ -128,6 +96,40 @@ const MapWithAlpacas = () => {
     return myOutput;
   };
 
+  const Marker = (props) => {
+    const [marker, setMarker] = useState();
+
+    useEffect(() => {
+      if (!marker) {
+        setMarker(new window.google.maps.Marker());
+      }
+
+      // remove marker from map on unmount
+      return () => {
+        if (marker) {
+          marker.setMap(null);
+        }
+      };
+    }, [marker]);
+
+    useEffect(() => {
+      let listenerHandle = null;
+      if (marker) {
+        listenerHandle = marker.addListener("click", () => {
+          setFarmInfo(`Farm position: ${JSON.stringify(props.position)}`);
+          console.log(`Farm position: ${JSON.stringify(props.position)}`);
+        });
+        marker.setOptions(props); // setOptions is part of Google API to set options on a marker
+      }
+      return () => {
+        if (marker) {
+          listenerHandle.remove();
+        }
+      };
+    }, [marker, props]);
+    return null;
+  };
+
   const AlpacaMarker = (data) => {
     const locations = extractLocations(data);
 
@@ -158,6 +160,11 @@ const MapWithAlpacas = () => {
           <li>
             TODO: spacebar or enter to show info window - currently prints info
             to browser console
+          </li>
+          <li>
+            <i>
+              {!farmInfo ? "Click location marker to show farm info" : farmInfo}
+            </i>
           </li>
         </ul>
       </section>
