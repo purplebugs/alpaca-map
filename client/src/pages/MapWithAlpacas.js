@@ -153,7 +153,11 @@ const MapWithAlpacas = () => {
           <p>Farm info</p>
 
           <ul>
-            <li>{!farmInfo ? "Loading..." : JSON.stringify(farmInfo)}</li>
+            <li>
+              {!farmInfo
+                ? "Click map marker, or use spacebar or enter when selected to show info"
+                : JSON.stringify(farmInfo)}
+            </li>
           </ul>
         </section>
       </>
@@ -170,7 +174,10 @@ const MapWithAlpacas = () => {
 
         <p>The alpacas on the map are accessible for screen readers </p>
         <ul>
-          <li>Use tab to select first icon, arrows to move between icons</li>
+          <li>
+            Use tab to select first marker, arrows to move between markers
+          </li>
+          <li>Use spacebar or enter to show info</li>
         </ul>
       </section>
       <InfoSection />
