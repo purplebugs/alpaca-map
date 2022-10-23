@@ -42,41 +42,9 @@ const AlpacaMap = (props) => {
   );
 };
 
-const Marker = (props) => {
-  const [marker, setMarker] = useState();
-
-  useEffect(() => {
-    if (!marker) {
-      setMarker(new window.google.maps.Marker());
-    }
-
-    // remove marker from map on unmount
-    return () => {
-      if (marker) {
-        marker.setMap(null);
-      }
-    };
-  }, [marker]);
-
-  useEffect(() => {
-    let listenerHandle = null;
-    if (marker) {
-      listenerHandle = marker.addListener("click", () => {
-        console.log(`Farm position: ${JSON.stringify(props.position)}`);
-      });
-      marker.setOptions(props); // setOptions is part of Google API to set options on a marker
-    }
-    return () => {
-      if (marker) {
-        listenerHandle.remove();
-      }
-    };
-  }, [marker, props]);
-  return null;
-};
-
 const MapWithAlpacas = () => {
   const [data, setData] = useState(null);
+  const [farmInfo, setFarmInfo] = useState(null);
   const center = { lat: 59, lng: 20 };
   const zoom = 4;
   const alpacaFarms = new Map(); // cache locations to avoid duplicate lookup of Google API
@@ -128,6 +96,40 @@ const MapWithAlpacas = () => {
     return myOutput;
   };
 
+  const Marker = (props) => {
+    const [marker, setMarker] = useState();
+
+    useEffect(() => {
+      if (!marker) {
+        setMarker(new window.google.maps.Marker());
+      }
+
+      // remove marker from map on unmount
+      return () => {
+        if (marker) {
+          marker.setMap(null);
+        }
+      };
+    }, [marker]);
+
+    useEffect(() => {
+      let listenerHandle = null;
+      if (marker) {
+        listenerHandle = marker.addListener("click", () => {
+          console.log(`Farm position: ${JSON.stringify(props.position)}`);
+          setFarmInfo(props.position);
+        });
+        marker.setOptions(props); // setOptions is part of Google API to set options on a marker
+      }
+      return () => {
+        if (marker) {
+          listenerHandle.remove();
+        }
+      };
+    }, [marker, props]);
+    return null;
+  };
+
   const AlpacaMarker = (data) => {
     const locations = extractLocations(data);
 
@@ -144,6 +146,20 @@ const MapWithAlpacas = () => {
     return result;
   };
 
+  const InfoSection = () => {
+    return (
+      <>
+        <section>
+          <p>Farm info</p>
+
+          <ul>
+            <li>{!farmInfo ? "Loading..." : JSON.stringify(farmInfo)}</li>
+          </ul>
+        </section>
+      </>
+    );
+  };
+
   return (
     <>
       <header>
@@ -155,12 +171,9 @@ const MapWithAlpacas = () => {
         <p>The alpacas on the map are accessible for screen readers </p>
         <ul>
           <li>Use tab to select first icon, arrows to move between icons</li>
-          <li>
-            TODO: spacebar or enter to show info window - currently prints info
-            to browser console
-          </li>
         </ul>
       </section>
+      <InfoSection />
       <Wrapper
         apiKey={"AIzaSyA4CRGK7nl21aBT_1uzNgLZ0B2SyAyd__E"}
         render={render}
