@@ -132,8 +132,9 @@ const MapWithAlpacas = () => {
       let listenerHandle = null;
       if (marker) {
         listenerHandle = marker.addListener("click", () => {
+          console.log(`Farm: ${JSON.stringify(options.label)}`);
           console.log(`Farm position: ${JSON.stringify(options.position)}`);
-          setFarmInfo(options.position);
+          setFarmInfo({ position: options.position, label: options.label });
         });
         marker.setOptions(options); // setOptions is part of Google API to set options on a marker
         console.log("options", options);
@@ -149,16 +150,15 @@ const MapWithAlpacas = () => {
 
   const AlpacaMarker = (data) => {
     const farmsByLocation = extractFarmsByLocation(data);
-    const locations = farmsByLocation.map((farm) => {
-      return { lat: farm.lat, lng: farm.lng };
-    });
 
-    const result = locations.map((location, id) => {
+    const result = farmsByLocation.map((farm, id) => {
+      const location = { lat: farm.lat, lng: farm.lng };
+      const name = farm.name;
       return (
         <Marker
           key={id}
           position={location}
-          label={`${id + 1}. Alpaca farm`}
+          label={`${id + 1}. Alpaca farm: ${name}`}
           optimized={false}
         />
       );
