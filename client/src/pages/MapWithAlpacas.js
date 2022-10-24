@@ -96,7 +96,7 @@ const MapWithAlpacas = () => {
     return myOutput;
   };
 
-  const Marker = (props) => {
+  const Marker = (options) => {
     const [marker, setMarker] = useState();
 
     useEffect(() => {
@@ -116,17 +116,18 @@ const MapWithAlpacas = () => {
       let listenerHandle = null;
       if (marker) {
         listenerHandle = marker.addListener("click", () => {
-          console.log(`Farm position: ${JSON.stringify(props.position)}`);
-          setFarmInfo(props.position);
+          console.log(`Farm position: ${JSON.stringify(options.position)}`);
+          setFarmInfo(options.position);
         });
-        marker.setOptions(props); // setOptions is part of Google API to set options on a marker
+        marker.setOptions(options); // setOptions is part of Google API to set options on a marker
+        console.log("options", options);
       }
       return () => {
         if (marker) {
           listenerHandle.remove();
         }
       };
-    }, [marker, props]);
+    }, [marker, options]);
     return null;
   };
 
