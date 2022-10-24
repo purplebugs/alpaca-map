@@ -46,7 +46,7 @@ const MapWithAlpacas = () => {
   const [data, setData] = useState(null);
   const [farmInfo, setFarmInfo] = useState(null);
   const center = { lat: 59, lng: 20 };
-  const zoom = 4;
+  const zoom = 5;
   const alpacaFarms = new Map(); // cache locations to avoid duplicate lookup of Google API
 
   const getData = async () => {
