@@ -25,7 +25,7 @@ const AlpacaMap = (props) => {
         })
       );
     }
-  }, [ref, map]);
+  }, [ref, map, props.center, props.zoom]);
 
   return (
     <>
