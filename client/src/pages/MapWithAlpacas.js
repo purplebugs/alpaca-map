@@ -60,39 +60,55 @@ const MapWithAlpacas = () => {
     getData();
   }, []);
 
-  const extractLocations = (listOfAlpacas) => {
+  const extractFarmsByLocation = (listOfAlpacas) => {
     const myOutput = [];
     for (const alpaca of listOfAlpacas) {
       if (
-        alpaca &&
-        alpaca.location &&
-        alpaca.location.coordinates &&
-        alpaca.location.coordinates[0] !== null &&
-        alpaca.location.coordinates[1] !== null &&
-        alpaca.location.coordinates[0] !== undefined &&
-        alpaca.location.coordinates[1] !== undefined
+        alpaca?.location?.coordinates[0] !== null &&
+        alpaca?.location?.coordinates[1] !== null &&
+        alpaca?.location?.coordinates[0] !== undefined &&
+        alpaca?.location?.coordinates[1] !== undefined
       ) {
         const lat = alpaca.location.coordinates[1];
         const lng = alpaca.location.coordinates[0];
 
         const key = `${lat}:${lng}`;
-        // Add farm position
-        const position = {
-          lat: lat,
-          lng: lng,
+        // Grab alpaca info from farm
+        // TODO figure out which of all fields to grab
+        const obj = {
+          lat,
+          lng,
+          name: alpaca?.name,
+          street: alpaca?.street,
+          city: alpaca?.city,
+          zip: alpaca?.zip,
+          alpacas: [
+            {
+              alpacaShortName: alpaca?.alpacaShortName,
+              gender: alpaca?.gender,
+            },
+          ],
         };
 
         if (alpacaFarms.has(key)) {
           console.log(`[LOG] Using location from alpacaFarms: ${key}`);
-          // Do not add new farm
+          // Do not add new farm, add next alpaca from farm
+          // TODO figure out which of all fields to show
+          const currentFarm = alpacaFarms.get(key);
+          currentFarm.alpacas.push({
+            alpacaShortName: alpaca?.alpacaShortName,
+            gender: alpaca?.gender,
+          });
+          alpacaFarms.set(key, currentFarm);
         } else {
-          // Add new farm
-          myOutput.push(position);
-          alpacaFarms.set(key, position);
+          // Add new farm with first alpaca found
+          myOutput.push(obj);
+          alpacaFarms.set(key, obj);
           console.log(`[LOG] Location added to alpacaFarms: ${key}`);
         }
       }
     }
+    console.log("[LOG] myOutput", myOutput);
     return myOutput;
   };
 
@@ -132,7 +148,10 @@ const MapWithAlpacas = () => {
   };
 
   const AlpacaMarker = (data) => {
-    const locations = extractLocations(data);
+    const farmsByLocation = extractFarmsByLocation(data);
+    const locations = farmsByLocation.map((farm) => {
+      return { lat: farm.lat, lng: farm.lng };
+    });
 
     const result = locations.map((location, id) => {
       return (
