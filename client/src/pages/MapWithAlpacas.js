@@ -44,9 +44,10 @@ const AlpacaMap = (props) => {
 
 const InfoSection = (farmInfo) => {
   let content;
-  if (!farmInfo) {
+  if (farmInfo) {
     content = JSON.stringify(farmInfo);
   } else {
+    // TODO this never renders, shows {"farmInfo":null}
     content =
       "Click map marker, or use spacebar or enter when selected to show info";
   }
