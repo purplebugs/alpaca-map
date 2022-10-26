@@ -42,6 +42,27 @@ const AlpacaMap = (props) => {
   );
 };
 
+const InfoSection = (farmInfo) => {
+  let content;
+  if (!farmInfo) {
+    content = JSON.stringify(farmInfo);
+  } else {
+    content =
+      "Click map marker, or use spacebar or enter when selected to show info";
+  }
+  return (
+    <>
+      <section>
+        <p>Farm info</p>
+
+        <ul>
+          <li>{content}</li>
+        </ul>
+      </section>
+    </>
+  );
+};
+
 const MapWithAlpacas = () => {
   const [data, setData] = useState(null);
   const [farmInfo, setFarmInfo] = useState(null);
@@ -166,24 +187,6 @@ const MapWithAlpacas = () => {
     return result;
   };
 
-  const InfoSection = () => {
-    return (
-      <>
-        <section>
-          <p>Farm info</p>
-
-          <ul>
-            <li>
-              {!farmInfo
-                ? "Click map marker, or use spacebar or enter when selected to show info"
-                : JSON.stringify(farmInfo)}
-            </li>
-          </ul>
-        </section>
-      </>
-    );
-  };
-
   return (
     <>
       <header>
@@ -200,7 +203,7 @@ const MapWithAlpacas = () => {
           <li>Use spacebar or enter to show info</li>
         </ul>
       </section>
-      <InfoSection />
+      <InfoSection farmInfo={farmInfo} />
       <Wrapper
         apiKey={"AIzaSyA4CRGK7nl21aBT_1uzNgLZ0B2SyAyd__E"}
         render={render}
