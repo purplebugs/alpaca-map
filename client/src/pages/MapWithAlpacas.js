@@ -64,12 +64,105 @@ const InfoSection = (farmInfo) => {
   );
 };
 
+const extractFarmsByLocation = (listOfAlpacas) => {
+  const alpacaFarms = new Map(); // cache locations to avoid duplicate lookup of Google API
+  const myOutput = [];
+  for (const alpaca of listOfAlpacas) {
+    if (
+      alpaca?.location?.coordinates[0] !== null &&
+      alpaca?.location?.coordinates[1] !== null &&
+      alpaca?.location?.coordinates[0] !== undefined &&
+      alpaca?.location?.coordinates[1] !== undefined
+    ) {
+      const lat = alpaca.location.coordinates[1];
+      const lng = alpaca.location.coordinates[0];
+
+      const key = `${lat}:${lng}`;
+      // Grab alpaca info from farm
+      // TODO figure out which of all fields to grab
+      const obj = {
+        lat,
+        lng,
+        name: alpaca?.name,
+        street: alpaca?.street,
+        city: alpaca?.city,
+        zip: alpaca?.zip,
+        alpacas: [
+          {
+            alpacaShortName: alpaca?.alpacaShortName,
+            gender: alpaca?.gender,
+          },
+        ],
+      };
+
+      if (alpacaFarms.has(key)) {
+        // console.log(`[LOG] Using location from alpacaFarms: ${key}`);
+        // Do not add new farm, add next alpaca from farm
+        // TODO figure out which of all fields to show
+        const currentFarm = alpacaFarms.get(key);
+        currentFarm.alpacas.push({
+          alpacaShortName: alpaca?.alpacaShortName,
+          gender: alpaca?.gender,
+        });
+        alpacaFarms.set(key, currentFarm);
+      } else {
+        // Add new farm with first alpaca found
+        myOutput.push(obj);
+        alpacaFarms.set(key, obj);
+        // console.log(`[LOG] Location added to alpacaFarms: ${key}`);
+      }
+    }
+  }
+  // console.log("[LOG] myOutput", myOutput);
+  return myOutput;
+};
+
+const Marker = (options) => {
+  const [marker, setMarker] = useState();
+
+  useEffect(() => {
+    if (!marker) {
+      setMarker(new window.google.maps.Marker());
+    }
+
+    // remove marker from map on unmount
+    return () => {
+      if (marker) {
+        marker.setMap(null);
+      }
+    };
+  }, [marker]);
+
+  useEffect(() => {
+    let listenerHandle = null;
+    if (marker) {
+      listenerHandle = marker.addListener("click", () => {
+        console.log(`Farm: ${JSON.stringify(options.label)}`);
+        console.log(`Farm position: ${JSON.stringify(options.position)}`);
+        // Use inverse data flow to pass state up
+        // Ref: https://beta.reactjs.org/learn/thinking-in-react#step-5-add-inverse-data-flow
+        options.onSetFarmInfoClick({
+          position: options.position,
+          label: options.label,
+        });
+      });
+      marker.setOptions(options); // setOptions is part of Google API to set options on a marker
+      // console.log("options", options);
+    }
+    return () => {
+      if (marker) {
+        listenerHandle.remove();
+      }
+    };
+  }, [marker, options]);
+  return null;
+};
+
 const MapWithAlpacas = () => {
   const [data, setData] = useState(null);
   const [farmInfo, setFarmInfo] = useState(null);
   const center = { lat: 61, lng: 12 };
   const zoom = 5;
-  const alpacaFarms = new Map(); // cache locations to avoid duplicate lookup of Google API
 
   const getData = async () => {
     const response = await fetch("/api/all?size=150");
@@ -81,101 +174,6 @@ const MapWithAlpacas = () => {
   useEffect(() => {
     getData();
   }, []);
-
-  const extractFarmsByLocation = (listOfAlpacas) => {
-    const myOutput = [];
-    for (const alpaca of listOfAlpacas) {
-      if (
-        alpaca?.location?.coordinates[0] !== null &&
-        alpaca?.location?.coordinates[1] !== null &&
-        alpaca?.location?.coordinates[0] !== undefined &&
-        alpaca?.location?.coordinates[1] !== undefined
-      ) {
-        const lat = alpaca.location.coordinates[1];
-        const lng = alpaca.location.coordinates[0];
-
-        const key = `${lat}:${lng}`;
-        // Grab alpaca info from farm
-        // TODO figure out which of all fields to grab
-        const obj = {
-          lat,
-          lng,
-          name: alpaca?.name,
-          street: alpaca?.street,
-          city: alpaca?.city,
-          zip: alpaca?.zip,
-          alpacas: [
-            {
-              alpacaShortName: alpaca?.alpacaShortName,
-              gender: alpaca?.gender,
-            },
-          ],
-        };
-
-        if (alpacaFarms.has(key)) {
-          // console.log(`[LOG] Using location from alpacaFarms: ${key}`);
-          // Do not add new farm, add next alpaca from farm
-          // TODO figure out which of all fields to show
-          const currentFarm = alpacaFarms.get(key);
-          currentFarm.alpacas.push({
-            alpacaShortName: alpaca?.alpacaShortName,
-            gender: alpaca?.gender,
-          });
-          alpacaFarms.set(key, currentFarm);
-        } else {
-          // Add new farm with first alpaca found
-          myOutput.push(obj);
-          alpacaFarms.set(key, obj);
-          // console.log(`[LOG] Location added to alpacaFarms: ${key}`);
-        }
-      }
-    }
-    // console.log("[LOG] myOutput", myOutput);
-    return myOutput;
-  };
-
-  const Marker = (options) => {
-    const [marker, setMarker] = useState();
-
-    useEffect(() => {
-      if (!marker) {
-        setMarker(new window.google.maps.Marker());
-      }
-
-      // remove marker from map on unmount
-      return () => {
-        if (marker) {
-          marker.setMap(null);
-        }
-      };
-    }, [marker]);
-
-    useEffect(() => {
-      let listenerHandle = null;
-      if (marker) {
-        listenerHandle = marker.addListener("click", () => {
-          console.log(`Farm: ${JSON.stringify(options.label)}`);
-          console.log(`Farm position: ${JSON.stringify(options.position)}`);
-          // Use inverse data flow to pass state up
-          // Ref: https://beta.reactjs.org/learn/thinking-in-react#step-5-add-inverse-data-flow
-          options.onSetFarmInfoClick({
-            position: options.position,
-            label: options.label,
-          });
-          // TODO remove this and move Marker component outside of <MapWithAlpacas> component as per best practise
-          // setFarmInfo({ position: options.position, label: options.label });
-        });
-        marker.setOptions(options); // setOptions is part of Google API to set options on a marker
-        // console.log("options", options);
-      }
-      return () => {
-        if (marker) {
-          listenerHandle.remove();
-        }
-      };
-    }, [marker, options]);
-    return null;
-  };
 
   const alpacaMarker = (data) => {
     const farmsByLocation = extractFarmsByLocation(data);
