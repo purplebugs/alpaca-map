@@ -75,7 +75,7 @@ const MapWithAlpacas = () => {
     const response = await fetch("/api/all?size=150");
     const items = await response.json();
     setData(items);
-    console.log("items", items);
+    // console.log("items", items);
   };
 
   useEffect(() => {
@@ -113,7 +113,7 @@ const MapWithAlpacas = () => {
         };
 
         if (alpacaFarms.has(key)) {
-          console.log(`[LOG] Using location from alpacaFarms: ${key}`);
+          // console.log(`[LOG] Using location from alpacaFarms: ${key}`);
           // Do not add new farm, add next alpaca from farm
           // TODO figure out which of all fields to show
           const currentFarm = alpacaFarms.get(key);
@@ -126,11 +126,11 @@ const MapWithAlpacas = () => {
           // Add new farm with first alpaca found
           myOutput.push(obj);
           alpacaFarms.set(key, obj);
-          console.log(`[LOG] Location added to alpacaFarms: ${key}`);
+          // console.log(`[LOG] Location added to alpacaFarms: ${key}`);
         }
       }
     }
-    console.log("[LOG] myOutput", myOutput);
+    // console.log("[LOG] myOutput", myOutput);
     return myOutput;
   };
 
@@ -156,10 +156,17 @@ const MapWithAlpacas = () => {
         listenerHandle = marker.addListener("click", () => {
           console.log(`Farm: ${JSON.stringify(options.label)}`);
           console.log(`Farm position: ${JSON.stringify(options.position)}`);
-          setFarmInfo({ position: options.position, label: options.label });
+          // Use inverse data flow to pass state up
+          // Ref: https://beta.reactjs.org/learn/thinking-in-react#step-5-add-inverse-data-flow
+          options.onSetFarmInfoClick({
+            position: options.position,
+            label: options.label,
+          });
+          // TODO remove this and move Marker component outside of <MapWithAlpacas> component as per best practise
+          // setFarmInfo({ position: options.position, label: options.label });
         });
         marker.setOptions(options); // setOptions is part of Google API to set options on a marker
-        console.log("options", options);
+        // console.log("options", options);
       }
       return () => {
         if (marker) {
@@ -170,8 +177,9 @@ const MapWithAlpacas = () => {
     return null;
   };
 
-  const AlpacaMarker = (data) => {
+  const alpacaMarker = (data) => {
     const farmsByLocation = extractFarmsByLocation(data);
+    console.log("farmsByLocation", farmsByLocation);
 
     const result = farmsByLocation.map((farm, id) => {
       const location = { lat: farm.lat, lng: farm.lng };
@@ -182,9 +190,11 @@ const MapWithAlpacas = () => {
           position={location}
           label={`${id + 1}. Alpaca farm: ${name}`}
           optimized={false}
+          onSetFarmInfoClick={setFarmInfo}
         />
       );
     });
+    console.log("result", result);
     return result;
   };
 
@@ -210,7 +220,7 @@ const MapWithAlpacas = () => {
         render={render}
       >
         <AlpacaMap center={center} zoom={zoom}>
-          {!data ? "Loading..." : AlpacaMarker(data)}
+          {!data ? "Loading..." : alpacaMarker(data)}
         </AlpacaMap>
       </Wrapper>
     </>
