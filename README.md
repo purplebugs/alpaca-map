@@ -54,12 +54,14 @@ Frond end
 
 Done:
 
-- scaffold back end (BE)
-- scaffold front end (FE) that calls BE
+- Scaffold back end (BE)
+- Scaffold front end (FE) that calls BE
+- Basic version of alpaca map prototype as React app
 
 Not done:
 
-- redo alpaca map prototype as React app
+- More details of alpacas per farm when click map location
+- Much nice styling
 
 ## License 📝
 
