@@ -1,31 +1,56 @@
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: grid;
+  grid-gap: 5em;
+  grid-template-areas: 'banner' 'nav' 'main' 'footer'
+    /* margin: 0;
+  padding: 0; */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@media (min-width: 40em) {
+  body {
+    grid-template-areas:
+      'banner banner'
+      'nav main'
+      'main footer'
+  }
+
 }
 
+/* 
+
+Ref https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Grids
+
+*/
+
+header {
+  grid-area: banner
+}
+
+nav {
+  grid-area: nav;
+}
+
+main {
+  grid-area: main;
+}
+
+footer {
+  grid-area: footer;
+}
+
+/* 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ Ref: https://developers.google.com/maps/documentation/javascript/overview#maps_map_simple-css
+ */
 
 #map {
-  height: 80%;
-  background-color: red;
-}
-
-#root {
-  height: 100%;
-}
-
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+  min-height: 50vh;
 }
 
 section {
@@ -43,7 +68,7 @@ section {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 2em;
   color: white;
 }
 
