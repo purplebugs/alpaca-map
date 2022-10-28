@@ -166,9 +166,9 @@ const MapWithAlpacas = () => {
 
   const getData = async () => {
     const response = await fetch("/api/all?size=150");
-    const items = await response.json();
-    setData(items);
-    // console.log("items", items);
+    const alpacas = await response.json();
+    setData(alpacas);
+    // console.log("alpacas", alpacas);
   };
 
   useEffect(() => {
@@ -192,7 +192,7 @@ const MapWithAlpacas = () => {
         />
       );
     });
-    console.log("result", result);
+    // console.log("result", result);
     return result;
   };
 
