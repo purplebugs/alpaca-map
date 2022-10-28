@@ -158,6 +158,10 @@ const Marker = (options) => {
   return null;
 };
 
+// MapWithAlpacas component renders other components with NO nested definitions
+// as per "Components can render other components, but you must never nest their definitions"
+// Ref: https://beta.reactjs.org/learn/your-first-component#nesting-and-organizing-components
+
 const MapWithAlpacas = () => {
   const [data, setData] = useState(null);
   const [farmInfo, setFarmInfo] = useState(null);
