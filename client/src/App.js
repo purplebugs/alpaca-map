@@ -5,20 +5,28 @@ import MapFixedCenter from "./pages/MapFixedCenter";
 import MapWithStaticMarkers from "./pages/MapWithStaticMarkers";
 import MapWithAlpacas from "./pages/MapWithAlpacas";
 import Error from "./pages/Error";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
+
+const Nav = () => {
+  return (
+    <>
+      <nav>
+        <Link to="/">Home</Link> -{" "}
+        <Link to="/get-position-get-alpacas">Get Position, Get Alpacas</Link> -{" "}
+        <Link to="/map-fixed-center">Map Fixed Center</Link> -{" "}
+        <Link to="/map-with-static-markers">Map with Static Markers</Link> -{" "}
+        <Link to="/map-with-alpacas">Map with Alpacas</Link>
+      </nav>
+    </>
+  );
+};
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <nav>
-          <Link to="/">Home</Link> -{" "}
-          <Link to="/get-position-get-alpacas">Get Position, Get Alpacas</Link>{" "}
-          - <Link to="/map-fixed-center">Map Fixed Center</Link> -{" "}
-          <Link to="/map-with-static-markers">Map with Static Markers</Link> -{" "}
-          <Link to="/map-with-alpacas">Map with Alpacas</Link>
-        </nav>
+      <Router>
+        <Nav />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/map-fixed-center" element={<MapFixedCenter />} />
@@ -34,7 +42,7 @@ function App() {
           <Route path="*" element={<Error />} />
         </Routes>
         <footer>Footer shared navigation</footer>
-      </BrowserRouter>
+      </Router>
     </>
   );
 }
