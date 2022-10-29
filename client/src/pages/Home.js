@@ -11,12 +11,13 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <header>
         <p>{!data ? "Loading..." : data}</p>
         <Link to="/testing">Testing link</Link>
       </header>
-    </div>
+      <main></main>
+    </>
   );
 };
 export default Home;
