@@ -47,7 +47,7 @@ const InfoSection = (farmInfo) => {
   if (!farmInfo.farmInfo) {
     // TODO why farmInfo.farmInfo? Note farmInfo value is {farmInfo: null}
     content =
-      "Click map marker, or use spacebar or enter when selected to show info";
+      "Click map marker or tab to select then arrows to move between markers, spacebar or enter to show info";
   } else {
     content = JSON.stringify(farmInfo);
   }
@@ -206,19 +206,8 @@ const MapWithAlpacas = () => {
         <h2>Map with alpaca locations</h2>
       </header>
       <main>
+        <InfoSection farmInfo={farmInfo} />
         <section>
-          <p>Placeholder to show alpaca details</p>
-
-          <p>The alpacas on the map are accessible for screen readers </p>
-          <ul>
-            <li>
-              Use tab to select first marker, arrows to move between markers
-            </li>
-            <li>Use spacebar or enter to show info</li>
-          </ul>
-        </section>
-        <section>
-          <InfoSection farmInfo={farmInfo} />
           <Wrapper
             apiKey={"AIzaSyA4CRGK7nl21aBT_1uzNgLZ0B2SyAyd__E"}
             render={render}
