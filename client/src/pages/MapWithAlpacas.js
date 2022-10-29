@@ -205,18 +205,17 @@ const MapWithAlpacas = () => {
       <header>
         <h2>Map with alpaca locations</h2>
       </header>
+
+      <InfoSection farmInfo={farmInfo} />
       <main>
-        <InfoSection farmInfo={farmInfo} />
-        <section>
-          <Wrapper
-            apiKey={"AIzaSyA4CRGK7nl21aBT_1uzNgLZ0B2SyAyd__E"}
-            render={render}
-          >
-            <AlpacaMap center={center} zoom={zoom}>
-              {!data ? "Loading..." : alpacaMarker(data)}
-            </AlpacaMap>
-          </Wrapper>
-        </section>
+        <Wrapper
+          apiKey={"AIzaSyA4CRGK7nl21aBT_1uzNgLZ0B2SyAyd__E"}
+          render={render}
+        >
+          <AlpacaMap center={center} zoom={zoom}>
+            {!data ? "Loading..." : alpacaMarker(data)}
+          </AlpacaMap>
+        </Wrapper>
       </main>
     </>
   );
