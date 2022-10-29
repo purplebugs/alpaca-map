@@ -10,6 +10,7 @@ const Nav = () => {
       <nav>
         <Link to="/">Home</Link> -{" "}
         <Link to="/map-with-alpacas">Map with Alpacas</Link>
+        <Link to="/testing">Testing link</Link>
       </nav>
     </>
   );
