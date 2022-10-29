@@ -9,7 +9,7 @@ import React, {
 import { Wrapper } from "@googlemaps/react-wrapper";
 
 const render = (status) => {
-  return <h1>{status}</h1>;
+  return <h2>{status}</h2>;
 };
 
 const AlpacaMap = (props) => {
@@ -54,7 +54,7 @@ const InfoSection = (farmInfo) => {
   return (
     <>
       <section>
-        <p>Farm info</p>
+        <h2>Farm info</h2>
 
         <ul>
           <li>{content}</li>
