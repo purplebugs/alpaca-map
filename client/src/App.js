@@ -2,8 +2,18 @@ import React from "react";
 import Home from "./pages/Home";
 import MapWithAlpacas from "./pages/MapWithAlpacas";
 import Error from "./pages/Error";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Nav from "./components/Nav";
+import { BrowserRouter as Router, Link, Routes, Route } from "react-router-dom";
+
+const Nav = () => {
+  return (
+    <>
+      <nav>
+        <Link to="/">Home</Link> -{" "}
+        <Link to="/map-with-alpacas">Map with Alpacas</Link>
+      </nav>
+    </>
+  );
+};
 
 function App() {
   return (
