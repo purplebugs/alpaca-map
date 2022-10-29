@@ -6,7 +6,7 @@
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   display: grid;
-  grid-gap: 1em;
+  grid-gap: 0.25em;
   grid-template-areas: 'nav' 'header' 'main' 'footer';
   /* margin: 0;
   padding: 0; */
@@ -59,21 +59,13 @@ section {
   background-color: lightpink;
 }
 
-.App {
+body {
   text-align: center;
+  font-size: 1em;
+  color: darkslateblue;
+  background-color: antiquewhite;
 }
 
-.App-header-- {
-  background-color: grey;
-  min-height: 95vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 2em;
-  color: white;
-}
-
-.App-link-- {
-  color: #61dafb;
+a {
+  color: darkorchid;
 }

@@ -11,8 +11,8 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div>
+      <header>
         <p>{!data ? "Loading..." : data}</p>
         <Link to="/testing">Testing link</Link>
       </header>
